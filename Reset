@@ -1,0 +1,18 @@
+if not game:IsLoaded() then
+   game.Loaded:Wait()
+end
+
+local P = game:GetService("Players").LocalPlayer
+
+if game.PlaceId == 6708206173 then
+    
+game:GetService("Players").LocalPlayer:GetMouse().KeyDown:connect(function(key)
+    if key == "r" then
+
+    Position = P.Character.HumanoidRootPart.CFrame
+        task.wait(game:GetService("ReplicatedStorage"):WaitForChild("RequestRespawn"):FireServer())
+    P.CharacterAdded:Wait()
+    P.Character:WaitForChild("HumanoidRootPart").CFrame = Position
+        end 
+    end)
+end
