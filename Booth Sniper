@@ -10,7 +10,7 @@ for _, booth in ipairs(booths) do
             workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
             local clickDetector = booth.Banner.ClickDetector
             if clickDetector then
-                fireclickdetector(clickDetector, 24)
+                fireclickdetector(clickDetector, 5)
             end
             break
         end
