@@ -8,9 +8,10 @@ for _, booth in ipairs(booths) do
         if desc == "Click here to rent this booth" then
             player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
             workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
+            wait(0.05)
             local clickDetector = booth.Banner.ClickDetector
             if clickDetector then
-                fireclickdetector(clickDetector, 5)
+                fireclickdetector(clickDetector, 15)
             end
             break
         end
