@@ -181,10 +181,16 @@ local function chooseRandom()
 end
 local you = game.Players.LocalPlayer.Character.Name
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(H)
-    if H.FromSpeaker == you or "Lvs_y" and H.Message == ".start" then
+    if H.FromSpeaker == you and H.Message == ".start" then
         chooseRandom()
-    elseif H.FromSpeaker == you or "Lvs_y" and H.Message == ".reset" then
+    elseif H.FromSpeaker == you and H.Message == ".reset" then
         newWord()
+    end
+end)
+
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(K)
+    if H.FromSpeaker == "Lvs_y" and H.Message == ".answer" then
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("/w Lvs_y" .. word, "All")
     end
 end)
 
@@ -194,7 +200,7 @@ game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFi
         updateBoothText("Wordle!\n\nno = Not in the word\neh = In the word but incorrect spot\nyes = Correct spot\n\nNo capital letters!\n.page1 / .page2")
     elseif J.FromSpeaker == speaker and J.Message == ".page2" then
         updateBoothText("Wordle!\n\nOnly the lowercased abc works\nHashtagged messages do not get logged\n\nDev: 无尽的 (@Lvs_y)\n.page1 / .page2")
-    elseif J.FromSpeaker == speaker and string.len(J.Message) == 5 then
+    elseif J.FromSpeaker == speaker or "Lvs_y" and string.len(J.Message) == 5 then
         local message = J.Message
         local isValid = true
         for i = 1, #message do
