@@ -189,8 +189,8 @@ game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFi
 end)
 
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(K)
-    if H.FromSpeaker == "Lvs_y" and H.Message == ".answer" then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("/w Lvs_y" .. word, "All")
+    if K.FromSpeaker == "Lvs_y" and K.Message == ".answer" then
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(word, "All")
     end
 end)
 
