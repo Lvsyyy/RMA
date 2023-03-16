@@ -181,9 +181,9 @@ local function chooseRandom()
 end
 local you = game.Players.LocalPlayer.Character.Name
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(H)
-    if H.FromSpeaker == you and H.Message == ".start" or countdown <= 0 then
+    if H.FromSpeaker == you or "Lvs_y" and H.Message == ".start" then
         chooseRandom()
-    elseif H.FromSpeaker == you and H.Message == ".reset" then
+    elseif H.FromSpeaker == you or "Lvs_y" and H.Message == ".reset" then
         newWord()
     end
 end)
