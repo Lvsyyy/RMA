@@ -1,9 +1,9 @@
-word = ""
-guessedWord = ""
-numGuesses = 0
-maxGuesses = 15
-guessedWords = {}
-queue = {}
+local word = ""
+local guessedWord = ""
+local numGuesses = 0
+local maxGuesses = 15
+local guessedWords = {}
+local queue = {}
 local fastCheck
 local speaker
 
