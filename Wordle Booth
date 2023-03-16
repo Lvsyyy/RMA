@@ -1,3 +1,9 @@
+word = ""
+guessedWord = ""
+numGuesses = 0
+maxGuesses = 15
+guessedWords = {}
+queue = {}
 local fastCheck
 local speaker
 
