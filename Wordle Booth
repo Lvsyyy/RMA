@@ -1,0 +1,226 @@
+local fastCheck
+local speaker
+
+local function updateBoothText(text)
+    local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
+    r:FireServer("Update", {
+        DescriptionText = text,
+        ImageId = 0
+    })
+end
+
+local function newWord()
+    local wordList = {"apple", "bread", "chair", "drink", "early", "fruit", "glass", "house", "issue", "juice", "knife", "lemon", "money", "night", "ocean", "paper", "quick", "route", "sauce", "tiger", "black", "cloud", "dance", "earth", "flame", "grape", "heart", "image", "mango", "noise", "olive", "piano", "queen", "rapid", "sugar", "tulip", "uncle", "wedge", "yacht", "zebra", "brush", "craft", "dream", "elite", "fable", "glaze", "happy", "igloo", "labor", "noble", "opera", "proud", "razor", "shock", "uncut", "virus", "wreck", "yield", "chase", "dairy", "eager", "fancy", "gloom", "honey", "ideal", "joker", "magic", "onion", "peace", "quest", "roast", "silly", "taste", "upset", "vocal", "worry", "yummy", "zombie"}
+    word = wordList[math.random(1, #wordList)]
+    print(word)
+    guessedWord = string.rep("_", #word)
+    numGuesses = 0
+    guessedWords = {}
+    updateBoothText("Wordle!\n\nGuess the 5-letter word\nStep up to play\n\nQueue: ")
+    fastCheck = false
+    winner = ""
+    speaker = ""
+    return true
+end
+newWord()
+
+local function updateQueueText()
+    local queueText = "Queue: "
+    for i, player in pairs(queue) do
+        queueText = queueText .. player.DisplayName .. ", "
+    end
+    updateBoothText("Wordle!\n\nGuess the 5-letter word\nStep up to play\n\n" .. queueText)
+end
+
+local function addPlayerToQueue(player)
+    if not table.find(queue, player) then
+        table.insert(queue, player)
+        updateQueueText()
+    end
+end
+
+local function removePlayerFromQueue(player)
+    for i, queuedPlayer in ipairs(queue) do
+        if queuedPlayer == player then
+            table.remove(queue, i)
+            updateQueueText()
+            break
+        end
+    end
+end
+
+local function isPlayerInTriggerDistance(player)
+    if fastCheck then
+        return false
+    else
+        local booths = game.Workspace:GetDescendants()
+        for _, booth in ipairs(booths) do
+            if booth.Name == "Booth" then
+                local desc = booth.Banner.SurfaceGui.Frame.Description
+                local tabletop = desc.Parent.Parent.Parent.Parent.Tabletop
+                if desc.Text:find("Wordle!") then
+                    if not tabletop then
+                        return false
+                    end
+                    local detectionPosition = tabletop.Position
+                    local detectionArea = tabletop.Size + Vector3.new(2, 0.5, 5)
+                    local playerCharacter = player.Character
+                    if not playerCharacter then
+                        return false
+                    end
+                    local playerHumanoidRootPart = playerCharacter:FindFirstChild("HumanoidRootPart")
+                    if not playerHumanoidRootPart then
+                        return false
+                    end
+                    local playerPosition = playerHumanoidRootPart.Position
+                    local distance = (playerPosition - detectionPosition).Magnitude
+                    wait()
+                    return distance <= detectionArea.Magnitude / 2
+                end
+            end
+        end
+    end
+end
+
+local function verifyDistance()
+    while wait() do
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if isPlayerInTriggerDistance(player) then
+                addPlayerToQueue(player)
+            else
+                removePlayerFromQueue(player)
+            end
+        end
+    end
+end
+
+local function checkGuess(guess)
+    local newGuessedWord = ""
+    local feedback = ""
+
+    if table.find(guessedWords, guess) then
+        updateBoothText("Wordle!\nUse '.help' for help\nGuess the 5-letter word\n\nWord was already guessed\n\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+        return
+    else
+        table.insert(guessedWords, guess)
+    end
+
+    local checkedLetters = {}
+
+    for i = 1, #word do
+        local letter = string.sub(guessedWord, i, i)
+        if string.sub(guess, i, i) == string.sub(word, i, i) then
+            letter = string.sub(word, i, i)
+            feedback = feedback .. " yes"
+            checkedLetters[letter] = true
+        elseif string.find(word, string.sub(guess, i, i), 1, true) and not checkedLetters[string.sub(guess, i, i)] then
+            feedback = feedback .. " eh"
+            checkedLetters[string.sub(guess, i, i)] = true
+        else
+            feedback = feedback .. " no"
+        end
+        newGuessedWord = newGuessedWord .. letter
+    end
+
+    if newGuessedWord == word then
+        updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
+        wait(4)
+        newWord()
+    elseif newGuessedWord == guessedWord then
+        numGuesses = numGuesses + 1
+        if numGuesses == maxGuesses then
+            updateBoothText("You have run out of guesses\n\nThe word was " .. word)
+            wait(4)
+            newWord()
+        else
+            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+        end
+    else
+        numGuesses = numGuesses + 1
+        updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+        guess = newGuessedWord
+    end
+end
+
+local function chooseRandom()
+    fastCheck = true
+    for _, booth in ipairs(game.Workspace:GetDescendants()) do
+        if booth.Name == "Booth" then
+            local desc = booth.Banner.SurfaceGui.Frame.Description
+            if desc.Text:find("Queue:") then
+                local queueText = desc.Text:sub(desc.Text:find("Queue:")+7)
+                local words = {}
+                for word in queueText:gmatch("[^,%s]+") do
+                    if word:sub(-1) == "," then
+                        word = word:sub(1, -2) .. ","
+                    end
+                    table.insert(words, word)
+                end
+                queueText = table.concat(words, " ")
+                if #words > 0 then
+                    local winner = words[math.random(#words)]
+                    for _, player in ipairs(game.Players:GetPlayers()) do
+                        if player.DisplayName == winner then
+                            wait(0.1)
+                            updateBoothText("Wordle!\n\nType in chat a 5-letter word\nUse '.help' for help\n\nChosen player: " .. winner .. "!")
+                            speaker = player.Name
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+local you = game.Players.LocalPlayer.Character.Name
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(H)
+    if H.FromSpeaker == you and H.Message == ".start" then
+        chooseRandom()
+    elseif H.FromSpeaker == you and H.Message == ".reset" then
+        newWord()
+    end
+end)
+
+local characters = "abcdefghijklmnopqrstuvwxyz"
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(J)
+    if J.FromSpeaker == speaker and J.Message == ".help" or J.Message == ".page1" then
+        updateBoothText("Wordle!\n\nno = Not in the word\neh = In the word but incorrect spot\nyes = Correct spot\n\nNo capital letters!\n.page1 / .page2")
+    elseif J.FromSpeaker == speaker and J.Message == ".page2" then
+        updateBoothText("Wordle!\n\nOnly the lowercased abc works\nHashtagged messages do not get logged\n\nDev: 无尽的 (@Lvs_y)\n.page1 / .page2")
+    elseif J.FromSpeaker == speaker and string.len(J.Message) == 5 then
+        local message = J.Message
+        local isValid = true
+        for i = 1, #message do
+            local char = message:sub(i, i)
+            if not string.find(characters, char, 1, true) then
+                isValid = false
+                break
+            end
+        end
+        if isValid then
+            checkGuess(message)
+        end
+    end
+end)
+
+if newWord() then
+    verifyDistance()
+    local booths = game.Workspace:GetDescendants()
+    for _, booth in ipairs(booths) do
+        if booth.Name == "Booth" then
+            local desc = booth.Banner.SurfaceGui.Frame.Description
+            tabletop = desc.Parent.Parent.Parent.Parent.Tabletop
+            if desc.Text:find("Wordle!") then
+                tabletop.Touched:Connect(function(otherPart)
+                    local player = game.Players:GetPlayerFromCharacter(otherPart.Parent)
+                    if isPlayerInTriggerDistance(player) then
+                        addPlayerToQueue(player)
+                    end
+                end)
+                tabletop.TouchEnded:Connect(function(otherPart)
+                    local player = game.Players:GetPlayerFromCharacter(otherPart.Parent)
+                    removePlayerFromQueue(player)
+                end)
+            end
+        end
+    end
+end
