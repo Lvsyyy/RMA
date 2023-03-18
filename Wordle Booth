@@ -110,7 +110,7 @@ local function checkGuess(guess)
     else
         table.insert(guessedWords, guess)
     end
-
+    
     local checkedLetters = {}
 
     for i = 1, #word do
@@ -127,12 +127,12 @@ local function checkGuess(guess)
         end
         newGuessedWord = newGuessedWord .. letter
     end
-
     if numGuesses >= maxGuesses then
         updateBoothText("You have run out of guesses\n\nThe word was " .. word)
         wait(4)
         newWord()
-    elseif newGuessedWord == word then
+    end
+    if newGuessedWord == word then
         updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
         wait(4)
         newWord()
