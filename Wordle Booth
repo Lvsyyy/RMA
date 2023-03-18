@@ -1,7 +1,7 @@
 local word = ""
 local guessedWord = ""
 local numGuesses = 0
-local maxGuesses = 15
+local maxGuesses = 10
 local guessedWords = {}
 local queue = {}
 local fastCheck
@@ -128,19 +128,17 @@ local function checkGuess(guess)
         newGuessedWord = newGuessedWord .. letter
     end
 
-    if newGuessedWord == word then
+    if numGuesses >= maxGuesses then
+        updateBoothText("You have run out of guesses\n\nThe word was " .. word)
+        wait(4)
+        newWord()
+    elseif newGuessedWord == word then
         updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
         wait(4)
         newWord()
     elseif newGuessedWord == guessedWord then
         numGuesses = numGuesses + 1
-        if numGuesses == maxGuesses then
-            updateBoothText("You have run out of guesses\n\nThe word was " .. word)
-            wait(4)
-            newWord()
-        else
-            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
-        end
+        updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
     else
         numGuesses = numGuesses + 1
         updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
