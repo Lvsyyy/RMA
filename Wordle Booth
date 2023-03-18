@@ -168,7 +168,7 @@ local function chooseRandom()
                     for _, player in ipairs(game.Players:GetPlayers()) do
                         if player.DisplayName == winner then
                             wait(0.1)
-                            updateBoothText("Wordle!\n\nType in chat a 5-letter word\nUse '.help' for help\n\nChosen player: " .. winner .. "!")
+                            updateBoothText("Wordle!\n\nType in chat a 5-letter word\nUse '.help' for help\nUse .tutorial for a tutorial\n\nChosen player: " .. winner .. "!")
                             speaker = player.Name
                         end
                     end
@@ -177,6 +177,7 @@ local function chooseRandom()
         end
     end
 end
+
 local you = game.Players.LocalPlayer.Character.Name
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(H)
     if H.FromSpeaker == you and H.Message == ".start" then
@@ -198,6 +199,12 @@ game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFi
         updateBoothText("Wordle!\n\nno = Not in the word\neh = In the word but incorrect spot\nyes = Correct spot\n\nNo capital letters!\n.page1 / .page2")
     elseif J.FromSpeaker == speaker and J.Message == ".page2" then
         updateBoothText("Wordle!\n\nOnly the lowercased abc works\nHashtagged messages do not get logged\n\nDev: 无尽的 (@Lvs_y)\n.page1 / .page2")
+    elseif J.FromSpeaker == speaker and J.Message == ".tutorial" then
+        updateBoothText("Wordle!\n\nno = Not in the word\neh = In the word, incorrect spot\nyes = Correct spot\n\nNo capital letters\n\n.tutorial2 / .tutorial3")
+    elseif J.FromSpeaker == speaker and J.Message == ".tutorial2" then
+        updateBoothText("Wordle!\n\nTutorial\nLast Guess: bread\n\nEvaluation: b = no r = yes e = yes a = yes d = eh\n\n.tutorial2 / .tutorial3")
+    elseif J.FromSpeaker == speaker and J.Message == ".tutorial3" then
+        updateBoothText("Wordle!\n\nTutorial\nLast Guess: dream \n\nCongratulations!\nNow guess yourself!\n\n.tutorial2 / .tutorial3")
     elseif J.FromSpeaker == speaker and string.len(J.Message) == 5 then
         local message = J.Message
         local isValid = true
