@@ -101,8 +101,13 @@ local function verifyDistance()
 end
 
 local function checkGuess(guess)
-    local newGuessedWord = ""
-    local feedback = ""
+    
+    if numGuesses >= maxGuesses - 1 then
+        updateBoothText("You have run out of guesses\n\nThe word was " .. word)
+        wait(4)
+        newWord()
+        return
+    end
 
     if table.find(guessedWords, guess) then
         updateBoothText("Wordle!\nUse '.help' for help\nGuess the 5-letter word\n\nWord was already guessed\n\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
@@ -111,6 +116,8 @@ local function checkGuess(guess)
         table.insert(guessedWords, guess)
     end
     
+    local newGuessedWord = ""
+    local feedback = ""
     local checkedLetters = {}
 
     for i = 1, #word do
@@ -126,11 +133,6 @@ local function checkGuess(guess)
             feedback = feedback .. " no"
         end
         newGuessedWord = newGuessedWord .. letter
-    end
-    if numGuesses >= maxGuesses then
-        updateBoothText("You have run out of guesses\n\nThe word was " .. word)
-        wait(4)
-        newWord()
     end
     if newGuessedWord == word then
         updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
