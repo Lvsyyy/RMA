@@ -11,12 +11,12 @@ local function updateBoothText(text)
     local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
     r:FireServer("Update", {
         DescriptionText = text,
-        ImageId = 0
+        ImageId = 11851435063
     })
 end
 
 local function newWord()
-    local wordList = {"apple", "bread", "chair", "drink", "early", "fruit", "glass", "house", "issue", "juice", "knife", "money", "night", "ocean", "paper", "quick", "route", "sauce", "tiger", "black", "cloud", "dance", "earth", "heart", "image", "noise", "piano", "queen", "rapid", "sugar", "tulip", "uncle", "wedge", "yacht", "zebra", "brush", "craft", "dream", "elite", "fable", "glaze", "happy", "igloo", "labor", "noble", "opera", "proud", "razor", "shock", "uncut", "virus", "wreck", "yield", "chase", "dairy", "eager", "fancy", "gloom", "honey", "ideal", "joker", "magic", "onion", "peace", "quest", "roast", "silly", "taste", "upset", "worry", "yummy", "zombie", "flour", "field", "flute", "horse", "gummy", "pasta", "laugh", "funny", "weird", "child", "torso", "belly", "vocal", "floor", "table", "diner", "album", "droid", "blaze", "clerk", "daisy", "flame", "gravy", "ivory", "jolly", "kneel", "lemon", "mango", "novel", "olive", "beach", "broom", "grape", "loyal", "scout", "party", "teeth", "unity", "video", "angry", "bison", "chess", "dwarf", "ethos", "hedge", "lunar", "medal", "oasis", "pilot", "quack", "rival", "shark", "thick", "amber", "braid", "caper", "dodge", "easel", "frost", "laser", "mimic", "punch", "rouge", "skirt", "unzip", "vital", "clown", "melon", "peach", "smile", "spark", "swirl", "wings", "charm", "puppy", "plush", "candy", "coral", "flair", "kitty", "local", "storm", "fence", "talent", "loser", "rusty", "dress", "whisk", "value", "blame", "agree", "blood", "swear", "small", "whale", "sword", "pause", "plead", "nerve", "brawl", "moose", "ghost", "feast", "curse", "clear", "glory", "grill", "crust", "slide", "tower", "crawl", "brown", "bunny", "omega", "alien", "cross", "thief", "beast", "mouth", "layer", "known", "story", "worst", "point", "smoke", "gnome", "booth", "click"}
+    local wordList = {"apple", "bread", "chair", "drink", "early", "fruit", "glass", "house", "issue", "juice", "knife", "money", "night", "ocean", "paper", "quick", "route", "sauce", "tiger", "black", "cloud", "dance", "earth", "heart", "image", "noise", "piano", "queen", "rapid", "sugar", "tulip", "uncle", "wedge", "yacht", "zebra", "brush", "craft", "dream", "elite", "fable", "glaze", "happy", "igloo", "labor", "noble", "opera", "proud", "razor", "shock", "uncut", "virus", "wreck", "yield", "chase", "dairy", "eager", "fancy", "gloom", "honey", "ideal", "joker", "magic", "onion", "peace", "quest", "roast", "silly", "taste", "upset", "worry", "yummy", "zombie", "flour", "field", "flute", "horse", "gummy", "pasta", "laugh", "funny", "weird", "child", "torso", "belly", "vocal", "floor", "table", "diner", "album", "droid", "blaze", "clerk", "daisy", "flame", "gravy", "ivory", "jolly", "kneel", "lemon", "mango", "novel", "olive", "beach", "broom", "grape", "loyal", "scout", "party", "teeth", "unity", "video", "angry", "bison", "chess", "dwarf", "ethos", "hedge", "lunar", "medal", "oasis", "pilot", "quack", "rival", "shark", "thick", "amber", "braid", "caper", "dodge", "easel", "frost", "laser", "mimic", "punch", "rouge", "skirt", "unzip", "vital", "clown", "melon", "peach", "smile", "spark", "swirl", "wings", "charm", "puppy", "plush", "candy", "coral", "flair", "kitty", "local", "storm", "fence", "loser", "rusty", "dress", "whisk", "value", "blame", "agree", "blood", "swear", "small", "whale", "sword", "pause", "plead", "nerve", "brawl", "moose", "ghost", "feast", "curse", "clear", "glory", "grill", "crust", "slide", "tower", "crawl", "brown", "bunny", "omega", "alien", "cross", "thief", "beast", "mouth", "layer", "known", "story", "worst", "point", "smoke", "gnome", "booth", "click"}
     word = wordList[math.random(1, #wordList)]
     print("Current word is: " .. word)
     guessedWord = string.rep("_", #word)
@@ -101,7 +101,7 @@ local function verifyDistance()
 end
 
 local function checkGuess(guess)
-    
+
     if numGuesses >= maxGuesses - 1 then
         updateBoothText("You have run out of guesses\n\nThe word was " .. word)
         wait(4)
@@ -115,25 +115,27 @@ local function checkGuess(guess)
     else
         table.insert(guessedWords, guess)
     end
-    
+
     local newGuessedWord = ""
     local feedback = ""
     local checkedLetters = {}
 
     for i = 1, #word do
-        local letter = string.sub(guessedWord, i, i)
-        if string.sub(guess, i, i) == string.sub(word, i, i) then
-            letter = string.sub(word, i, i)
-            feedback = feedback .. " yes"
-            checkedLetters[letter] = true
-        elseif string.find(word, string.sub(guess, i, i), 1, true) and not checkedLetters[string.sub(guess, i, i)] then
-            feedback = feedback .. " eh"
-            checkedLetters[string.sub(guess, i, i)] = true
-        else
+        local guessLetter = string.sub(guess, i, i)
+        if guessLetter == string.sub(word, i, i) then
+            if not checkedLetters[guessLetter] then
+                feedback = feedback .. " yes"
+                checkedLetters[guessLetter] = {i}
+            else
+                table.insert(checkedLetters[guessLetter], i)
+                feedback = feedback .. " yes"
+            end
+        elseif string.find(word, guessLetter, 1, true) then
             feedback = feedback .. " no"
         end
-        newGuessedWord = newGuessedWord .. letter
+        newGuessedWord = newGuessedWord .. (checkedLetters[guessLetter] and guessLetter or string.sub(guessedWord, i, i))
     end
+
     if newGuessedWord == word then
         updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
         wait(4)
