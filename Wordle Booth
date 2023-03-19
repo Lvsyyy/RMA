@@ -121,19 +121,18 @@ local function checkGuess(guess)
     local checkedLetters = {}
 
     for i = 1, #word do
-        local guessLetter = string.sub(guess, i, i)
-        if guessLetter == string.sub(word, i, i) then
-            if not checkedLetters[guessLetter] then
-                feedback = feedback .. " yes"
-                checkedLetters[guessLetter] = {i}
-            else
-                table.insert(checkedLetters[guessLetter], i)
-                feedback = feedback .. " yes"
-            end
-        elseif string.find(word, guessLetter, 1, true) then
+        local letter = string.sub(guessedWord, i, i)
+        if string.sub(guess, i, i) == string.sub(word, i, i) then
+            letter = string.sub(word, i, i)
+            feedback = feedback .. " yes"
+            checkedLetters[letter] = true
+        elseif not checkedLetters[string.sub(guess, i, i)] and string.find(word, string.sub(guess, i, i)) then
+            feedback = feedback .. " eh"
+            checkedLetters[string.sub(guess, i, i)] = true
+        else
             feedback = feedback .. " no"
         end
-        newGuessedWord = newGuessedWord .. (checkedLetters[guessLetter] and guessLetter or string.sub(guessedWord, i, i))
+        newGuessedWord = newGuessedWord .. letter
     end
 
     if newGuessedWord == word then
