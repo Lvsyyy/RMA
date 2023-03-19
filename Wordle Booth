@@ -115,20 +115,16 @@ local function checkGuess(guess)
     else
         table.insert(guessedWords, guess)
     end
-
+    
     local newGuessedWord = ""
     local feedback = ""
-    local checkedLetters = {}
-
+    
     for i = 1, #word do
         local letter = string.sub(guessedWord, i, i)
         if string.sub(guess, i, i) == string.sub(word, i, i) then
-            letter = string.sub(word, i, i)
             feedback = feedback .. " yes"
-            checkedLetters[letter] = true
-        elseif not checkedLetters[string.sub(guess, i, i)] and string.find(word, string.sub(guess, i, i)) then
+        elseif string.find(guess, string.sub(word, i, i)) then
             feedback = feedback .. " eh"
-            checkedLetters[string.sub(guess, i, i)] = true
         else
             feedback = feedback .. " no"
         end
@@ -168,7 +164,7 @@ local function chooseRandom()
                     local winner = words[math.random(#words)]
                     for _, player in ipairs(game.Players:GetPlayers()) do
                         if player.DisplayName == winner then
-                            wait(0.1)
+                            wait(0.25)
                             updateBoothText("Wordle!\n\nType in chat a 5-letter word\nUse '.help' for help\nUse .tutorial for a tutorial\n\nChosen player: " .. winner .. "!")
                             speaker = player.Name
                         end
