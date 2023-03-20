@@ -109,39 +109,41 @@ local function checkGuess(guess)
         return
     end
 
+    if guess == word then
+        updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
+        wait(4)
+        newWord()
+    else
+
     if table.find(guessedWords, guess) then
         updateBoothText("Wordle!\nUse '.help' for help\nGuess the 5-letter word\n\nWord was already guessed\n\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
         return
     else
         table.insert(guessedWords, guess)
     end
-    
-    local newGuessedWord = ""
-    local feedback = ""
-    
-    for i = 1, #word do
-        local letter = string.sub(guessedWord, i, i)
-        if string.sub(guess, i, i) == string.sub(word, i, i) then
-            feedback = feedback .. " yes"
-        elseif string.find(guess, string.sub(word, i, i)) then
-            feedback = feedback .. " eh"
-        else
-            feedback = feedback .. " no"
+        
+        local newGuessedWord = ""
+        local feedback = ""
+        
+        for i = 1, #word do
+            local letter = string.sub(guessedWord, i, i)
+            if string.sub(guess, i, i) == string.sub(word, i, i) then
+                feedback = feedback .. " yes"
+            elseif string.find(guess, string.sub(word, i, i)) then
+                feedback = feedback .. " eh"
+            else
+                feedback = feedback .. " no"
+            end
         end
-        newGuessedWord = newGuessedWord .. letter
-    end
-
-    if newGuessedWord == word then
-        updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
-        wait(4)
-        newWord()
-    elseif newGuessedWord == guessedWord then
-        numGuesses = numGuesses + 1
-        updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
-    else
-        numGuesses = numGuesses + 1
-        updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
-        guess = newGuessedWord
+        
+        if newGuessedWord == guessedWord then
+            numGuesses = numGuesses + 1
+            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+        else
+            numGuesses = numGuesses + 1
+            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+            guess = newGuessedWord
+        end
     end
 end
 
