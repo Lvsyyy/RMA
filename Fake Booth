@@ -11,29 +11,34 @@ local function updateBoothText(text)
     })
 end
 
-function fakeBooth()
-    local booths = game.Workspace:GetDescendants()
+local booths = game.Workspace:GetDescendants()
+local allBoothsClaimed = true
+repeat
+    allBoothsClaimed = true
     for _, booth in ipairs(booths) do
         if booth.Name == "Booth" and booth.Banner then
+            wait()
             local desc = booth.Banner.SurfaceGui.Frame.Description.Text
             if desc == "Click here to rent this booth" then
+                allBoothsClaimed = false
                 savedPos = player.Character.HumanoidRootPart.CFrame
                 savedCam = workspace.CurrentCamera.CFrame
                 player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
                 workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
-                wait(0.5)
                 local clickDetector = booth.Banner.ClickDetector
                 if clickDetector then
+                    wait(0.15)
                     fireclickdetector(clickDetector, 15)
                     wait()
                     fireclickdetector(clickDetector, 15)
                     updateBoothText(fakeText)
-                    wait(0.05)
                     game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
+                    wait(0.05)
                     player.Character.HumanoidRootPart.CFrame = savedPos
                     workspace.CurrentCamera.CFrame = savedCam
                 end
             end
         end
     end
-end
+    wait()
+until allBoothsClaimed
