@@ -1,0 +1,43 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local savedPos
+local savedCam
+
+local function updateBoothText(text)
+    local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
+    r:FireServer("Update", {
+        DescriptionText = text,
+        ImageId = 0
+    })
+end
+
+local function fakeBooth()
+    local booths = game.Workspace:GetDescendants()
+    for _, booth in ipairs(booths) do
+        if booth.Name == "Booth" and booth.Banner then
+            local desc = booth.Banner.SurfaceGui.Frame.Description.Text
+            if desc == "Click here to rent this booth" then
+                savedPos = player.Character.HumanoidRootPart.CFrame
+                savedCam = workspace.CurrentCamera.CFrame
+                player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
+                workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
+                wait()
+                local clickDetector = booth.Banner.ClickDetector
+                if clickDetector then
+                    fireclickdetector(clickDetector, 15)
+                    wait(0.05)
+                    fireclickdetector(clickDetector, 15)
+                    wait(0.15)
+                    updateBoothText(fakeText)
+                    wait(0.1)
+                    game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
+                    wait(0.1)
+                    player.Character.HumanoidRootPart.CFrame = savedPos
+                    workspace.CurrentCamera.CFrame = savedCam
+                end
+            end
+        end
+    end
+end
+
+fakeBooth()
