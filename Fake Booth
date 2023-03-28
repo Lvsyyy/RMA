@@ -25,9 +25,9 @@ local function fakeBooth()
                 local clickDetector = booth.Banner.ClickDetector
                 if clickDetector then
                     fireclickdetector(clickDetector, 15)
-                    wait(0.05)
+                    wait()
                     fireclickdetector(clickDetector, 15)
-                    wait(0.15)
+                    wait()
                     updateBoothText(fakeText)
                     wait(0.1)
                     game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
