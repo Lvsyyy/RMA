@@ -30,7 +30,6 @@ local function fakeBooth()
                     updateBoothText(fakeText)
                     wait(0.05)
                     game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
-                    wait(0.1)
                     player.Character.HumanoidRootPart.CFrame = savedPos
                     workspace.CurrentCamera.CFrame = savedCam
                 end
