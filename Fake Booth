@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local savedPos
 local savedCam
+fakeText = nil
 
 local function updateBoothText(text)
     local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
@@ -11,7 +12,7 @@ local function updateBoothText(text)
     })
 end
 
-local function fakeBooth()
+function fakeBooth()
     local booths = game.Workspace:GetDescendants()
     for _, booth in ipairs(booths) do
         if booth.Name == "Booth" and booth.Banner then
