@@ -2,7 +2,6 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local savedPos
 local savedCam
-fakeText = nil
 
 local function updateBoothText(text)
     local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
@@ -38,5 +37,3 @@ function fakeBooth()
         end
     end
 end
-
-fakeBooth()
