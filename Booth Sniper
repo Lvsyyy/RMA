@@ -1,17 +1,27 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+local savedPos
+local savedCam
 
 local booths = game.Workspace:GetDescendants()
 for _, booth in ipairs(booths) do
     if booth.Name == "Booth" and booth.Banner then
         local desc = booth.Banner.SurfaceGui.Frame.Description.Text
         if desc == "Click here to rent this booth" then
+            savedPos = player.Character.HumanoidRootPart.CFrame
+            savedCam = workspace.CurrentCamera.CFrame
             player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
             workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
-            wait(0.05)
+            wait()
             local clickDetector = booth.Banner.ClickDetector
             if clickDetector then
                 fireclickdetector(clickDetector, 15)
+                wait()
+                fireclickdetector(clickDetector, 15)
+                wait(0.1)
+                fireclickdetector(clickDetector, 15)
+                player.Character.HumanoidRootPart.CFrame = savedPos
+                workspace.CurrentCamera.CFrame = savedCam
             end
             break
         end
