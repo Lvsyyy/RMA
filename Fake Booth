@@ -21,15 +21,14 @@ local function fakeBooth()
                 savedCam = workspace.CurrentCamera.CFrame
                 player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
                 workspace.CurrentCamera.CFrame = CFrame.new(0, 0, 0, 0, 1, -0.1, 0, 0, 1, 0, 0, -0)
-                wait()
+                wait(0.5)
                 local clickDetector = booth.Banner.ClickDetector
                 if clickDetector then
                     fireclickdetector(clickDetector, 15)
                     wait()
                     fireclickdetector(clickDetector, 15)
-                    wait()
                     updateBoothText(fakeText)
-                    wait(0.1)
+                    wait(0.05)
                     game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
                     wait(0.1)
                     player.Character.HumanoidRootPart.CFrame = savedPos
