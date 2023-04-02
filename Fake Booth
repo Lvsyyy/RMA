@@ -3,11 +3,11 @@ local player = Players.LocalPlayer
 local savedPos
 local savedCam
 
-local function updateBoothText(text)
+local function updateBoothText(text, imageID)
     local r = game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth")
     r:FireServer("Update", {
         DescriptionText = text,
-        ImageId = 0
+        ImageId = imageID
     })
 end
 
@@ -31,7 +31,7 @@ repeat
                     fireclickdetector(clickDetector, 15)
                     wait()
                     fireclickdetector(clickDetector, 15)
-                    updateBoothText(fakeText)
+                    updateBoothText(fakeText, fakeimageID)
                     game:GetService("ReplicatedStorage"):WaitForChild("CustomiseBooth"):FireServer("Abandon")
                     wait(0.05)
                     player.Character.HumanoidRootPart.CFrame = savedPos
