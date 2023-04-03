@@ -2,12 +2,41 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local savedPos
 local savedCam
+local Outlines = true
+local OutlineColoring = Color3.fromRGB(255, 255, 255)
+local OutlineFill = false
+local FillColoring = Color3.fromRGB(255, 255, 255)
+local Folder = game:GetService("CoreGui"):FindFirstChild("HighLights")
+
+if not Folder then
+    Folder = Instance.new("Folder", game:GetService("CoreGui"))
+    Folder.Name = "HighLights"
+end
+
+local function AddOutline(Character)
+    local Highlight = Instance.new("Highlight", Folder)
+    
+    Highlight.OutlineColor = OutlineColoring
+    Highlight.Adornee = Character
+    
+    if OutlineFill == true then
+        Highlight.FillColor = FillColoring
+        Highlight.FillTransparency = FillOpacity
+    else
+        Highlight.FillTransparency = 1
+    end
+    
+    delay(7.5, function()
+        Highlight:Destroy()
+    end)
+end
 
 local booths = game.Workspace:GetDescendants()
 for _, booth in ipairs(booths) do
     if booth.Name == "Booth" and booth.Banner then
         local desc = booth.Banner.SurfaceGui.Frame.Description.Text
         if desc == "Click here to rent this booth" then
+            AddOutline(booth)
             savedPos = player.Character.HumanoidRootPart.CFrame
             savedCam = workspace.CurrentCamera.CFrame
             player.Character.HumanoidRootPart.CFrame = booth.Tabletop.CFrame + Vector3.new(0, 2, 0)
