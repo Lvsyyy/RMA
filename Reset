@@ -10,13 +10,13 @@ if game.PlaceId == 6708206173 then
 
     game:GetService("Players").LocalPlayer:GetMouse().KeyDown:connect(function(key)
         if key == "r" then
-            savedPos = player.Character.HumanoidRootPart.CFrame
+            savedPos = P.Character.HumanoidRootPart.CFrame
             savedCam = workspace.CurrentCamera.CFrame
             Position = P.Character.HumanoidRootPart.CFrame
             task.wait(game:GetService("ReplicatedStorage"):WaitForChild("RequestRespawn"):FireServer())
             P.CharacterAdded:Wait()
             P.Character:WaitForChild("HumanoidRootPart").CFrame = Position
-            player.Character.HumanoidRootPart.CFrame = savedPos
+            P.Character.HumanoidRootPart.CFrame = savedPos
             workspace.CurrentCamera.CFrame = savedCam
         end
     end)
