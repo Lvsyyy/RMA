@@ -16,7 +16,58 @@ local function updateBoothText(text)
 end
 
 local function newWord()
-    local wordList = {"apple", "bread", "chair", "drink", "early", "fruit", "glass", "house", "issue", "juice", "knife", "money", "night", "ocean", "paper", "quick", "route", "sauce", "tiger", "black", "cloud", "dance", "earth", "heart", "image", "noise", "piano", "queen", "rapid", "sugar", "tulip", "uncle", "wedge", "yacht", "zebra", "brush", "craft", "dream", "elite", "fable", "glaze", "happy", "igloo", "labor", "noble", "opera", "proud", "razor", "shock", "uncut", "virus", "wreck", "yield", "chase", "dairy", "eager", "fancy", "gloom", "honey", "ideal", "joker", "magic", "onion", "peace", "quest", "roast", "silly", "taste", "upset", "worry", "yummy", "zombie", "flour", "field", "flute", "horse", "gummy", "pasta", "laugh", "funny", "weird", "child", "torso", "belly", "vocal", "floor", "table", "diner", "album", "droid", "blaze", "clerk", "daisy", "flame", "gravy", "ivory", "jolly", "kneel", "lemon", "mango", "novel", "olive", "beach", "broom", "grape", "loyal", "scout", "party", "teeth", "unity", "video", "angry", "bison", "chess", "dwarf", "bless", "hedge", "lunar", "medal", "oasis", "pilot", "quack", "rival", "shark", "thick", "amber", "braid", "caper", "dodge", "easel", "frost", "laser", "mimic", "punch", "rouge", "skirt", "unzip", "vital", "clown", "melon", "peach", "smile", "spark", "swirl", "wings", "charm", "puppy", "plush", "candy", "coral", "flair", "kitty", "local", "storm", "fence", "loser", "rusty", "dress", "whisk", "value", "blame", "agree", "blood", "swear", "small", "whale", "sword", "pause", "plead", "nerve", "brawl", "moose", "ghost", "feast", "curse", "clear", "glory", "grill", "crust", "slide", "tower", "crawl", "brown", "bunny", "omega", "alien", "cross", "thief", "beast", "mouth", "layer", "known", "story", "worst", "point", "smoke", "gnome", "booth", "click", "death"}
+    local wordList = {
+        "pulse", "audio", "solar", "choir", "laser", "pizza", "maybe", "guess", "stuff",
+		"seven", "world", "about", "again", "heart", "water", "happy", "sixty", "board", 
+		"month", "angel", "death", "green", "music", "fifty", "three", "party", "piano", 
+		"mouth", "woman", "sugar", "amber", "dream", "apple", "laugh", "tiger", "faith", 
+		"earth", "river", "money", "peace", "forty", "nurse", "smile", "quarz", "house",
+		"alone", "watch", "lemon", "south", "minus", "anime", "after", "santa", "admin", 
+		"ditch", "china", "blood", "noone", "thing", "light", "joker", "cough", "story", 
+		"power", "india", "point", "today", "anger", "night", "glory", "april", "candy", 
+		"puppy", "above", "phone", "vegan", "forum", "irish", "birth", "other", "grace", 
+		"queen", "pasta", "plant", "smart", "knife", "magic", "jelly", "black", "media", 
+		"honor", "cycle", "truth", "zebra", "train", "bully", "brain", "mango", "under",
+		"dirty", "robot", "eight", "fruit", "panda", "truck", "field", "bible", "radio", 
+		"dance", "voice", "vocal", "sorry", "paris", "being", "lover", "never", "royal", 
+		"venus", "metal", "penny", "honey", "color", "cloud", "scarf", "state", "value", 
+		"mouse", "north", "bread", "daily", "paper", "beard", "alive", "place", "chair", 
+		"badge", "worth", "crazy", "photo", "dress", "table", "cross", "clear", "white",
+		"march", "ocean", "belly", "ninja", "young", "range", "grief", "great", "sweet",
+		"glass", "scent", "beach", "space", "clock", "blush", "peach", "sound", "fever", 
+		"youth", "union", "basis", "plate", "eagle", "human", "start", "funny", "right", 
+		"bound", "guard", "witch", "dough", "think", "image", "album", "socks", "catch", 
+		"sleep", "below", "organ", "cacao", "cupid", "storm", "silly", "berry", "rhyme", 
+		"grave", "olive", "leave", "whale", "logic", "brave", "asian", "every", "arrow",
+		"there", "ebola", "later", "bacon", "local", "graph", "super", "labor", "brown", 
+		"onion", "nudge", "globe", "alley", "stick", "spain", "daddy", "scare", "quiet", 
+		"touch", "clean", "liver", "lucky", "given", "lunch", "child", "clone", "glove", 
+		"meter", "orbit", "plain", "solid", "uncle", "shout", "bored", "early", "video", 
+		"brian", "cheer", "texas", "often", "sushi", "chaos", "tulip", "alien", "apart", 
+		"fight", "coach", "force", "trust", "angle", "beast", "craft", "chess", "skull", 
+		"order", "judge", "swing", "drive", "shine", "stand", "stage", "oscar", "shoot", 
+		"worry", "drama", "raven", "sight", "short", "straw", "unity", "horse", "slang", 
+		"devil", "spoon", "clown", "grand", "gnome", "tumor", "titan", "award", "quick", 
+		"cause", "close", "scout", "snail", "purse", "topic", "teeth", "sauce", "share", 
+		"along", "worse", "movie", "reach", "giant", "quack", "shark", "first", "count",
+		"agent", "shelf", "grape", "drink", "skate", "wrong", "cream", "snake", "heavy",
+		"tooth", "heard", "idiot", "scary", "chain", "break", "xenon", "agony", "salad", 
+		"shell", "scope", "squid", "track", "final", "crown", "group", "wagon", "doing", 
+		"roast", "false", "small", "block", "brush", "bloom", "grain", "wings", "moose", 
+		"allow", "habit", "stove", "tower", "stars", "total", "plane", "comet", "pound", 
+		"width", "frown", "speed", "grant", "ready", "blast", "treat", "ratio", "biome", 
+		"oasis", "owner", "ghost", "leach", "abort", "court", "petal", "flood", "wolve", 
+		"limit", "extra", "pearl", "kneel", "rough", "koala", "melon", "price", "alpha", 
+		"smell", "chase", "fresh", "quest", "store", "grove", "round", "sense", "chest", 
+		"fancy", "loose", "match", "pluto", "sport", "sheep", "crime", "grade", "pride", 
+		"lance", "input", "virus", "tween", "hover", "model", "ledge", "tired", "level", 
+		"juice", "squat", "amish", "flame", "event", "offer", "twist", "actor", "maple",
+		"hinge", "proud", "syrup", "index", "hyper", "paint", "press", "patch", "mercy", 
+		"baker", "broom", "rhino", "hydra", "greed", "troll", "curve", "fairy", "flute",
+		"class", "hyena", "stock", "sting", "fable", "dwarf", "chant", "focus", "bench", 
+		"hotel", "brand", "otter", "goose", "frame", "elder", "dodge", "sloth", "eager", 
+		"serve", "empty", "cover", "genre", "cable", "elite", "worst", "cliff", "egypt"
+    }
     word = wordList[math.random(1, #wordList)]
     print("Current word is: " .. word)
     guessedWord = string.rep("_", #word)
@@ -100,7 +151,7 @@ local function verifyDistance()
     end
 end
 
-local function checkGuess(guess)
+local function checkGuess(guess, word)
 
     if numGuesses >= maxGuesses - 1 then
         updateBoothText("You have run out of guesses\n\nThe word was " .. word)
@@ -109,41 +160,49 @@ local function checkGuess(guess)
         return
     end
 
-    if guess == word then
-        updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
-        wait(4)
-        newWord()
-    else
-
     if table.find(guessedWords, guess) then
         updateBoothText("Wordle!\nUse '.help' for help\nGuess the 5-letter word\n\nWord was already guessed\n\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
         return
     else
         table.insert(guessedWords, guess)
     end
-        
-        local newGuessedWord = ""
-        local feedback = ""
-        
-        for i = 1, #word do
-            local letter = string.sub(guessedWord, i, i)
-            if string.sub(guess, i, i) == string.sub(word, i, i) then
-                feedback = feedback .. " yes"
-            elseif string.find(guess, string.sub(word, i, i)) then
-                feedback = feedback .. " eh"
-            else
-                feedback = feedback .. " no"
-            end
-        end
-        
-        if newGuessedWord == guessedWord then
-            numGuesses = numGuesses + 1
-            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
+    
+    local feedback = {}
+
+    local letterCounts = {}
+    for i = 1, #word do
+        local letter = word:sub(i, i)
+        letterCounts[letter] = (letterCounts[letter] or 0) + 1
+    end
+
+    for i = 1, #guess do
+        local guessLetter = guess:sub(i, i)
+        local solutionLetter = word:sub(i, i)
+
+        if guessLetter == solutionLetter then
+            table.insert(feedback, "Yes")
+            letterCounts[guessLetter] = letterCounts[guessLetter] - 1
         else
-            numGuesses = numGuesses + 1
-            updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. feedback .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
-            guess = newGuessedWord
+            table.insert(feedback, "No")
         end
+    end
+
+    for i = 1, #guess do
+        local guessLetter = guess:sub(i, i)
+
+        if feedback[i] == "No" and letterCounts[guessLetter] and letterCounts[guessLetter] > 0 then
+            feedback[i] = "Eh"
+            letterCounts[guessLetter] = letterCounts[guessLetter] - 1
+        end
+    end
+
+    if guess == word then
+        updateBoothText("Congratulations! You guessed the word!\n\nThe word was " .. word)
+        wait(4)
+        newWord()
+    else
+        numGuesses = numGuesses + 1
+        updateBoothText("Wordle!\n\nGuess the 5-letter word\nUse '.help' for help\n\nLast Guess: " .. guess .. "\n\nEvaluation: " .. table.concat(feedback, " ") .. "\n" .. (maxGuesses - numGuesses) .. " guesses remaining")
     end
 end
 
@@ -183,11 +242,7 @@ game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFi
         chooseRandom()
     elseif H.FromSpeaker == you and H.Message == ".reset" then
         newWord()
-    end
-end)
-
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(K)
-    if K.FromSpeaker == "Lvs_y" and K.Message == ".answer" then
+    elseif H.FromSpeaker == "Lvs_y" and K.Message == ".answer" then
         game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(word, "All")
     end
 end)
