@@ -242,8 +242,6 @@ game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFi
         chooseRandom()
     elseif H.FromSpeaker == you and H.Message == ".reset" then
         newWord()
-    elseif H.FromSpeaker == "Lvs_y" and K.Message == ".answer" then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer(word, "All")
     end
 end)
 
